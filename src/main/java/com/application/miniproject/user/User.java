@@ -1,5 +1,6 @@
 package com.application.miniproject.user;
 
+import com.application.miniproject.util.type.UserType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,9 @@ public class User {
 
     private String imageUrl;
     private int annualCount;
+
+    @Enumerated(EnumType.STRING)
+    private UserType role;
 
     @Column(nullable = false, name = "created_at")
     private Timestamp createdAt;
