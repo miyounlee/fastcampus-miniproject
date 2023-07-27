@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -38,7 +37,7 @@ public class Event {
     private String eventType;
 
     @Column(nullable = false)
-    @ColumnDefault("WAITING")
+    @ColumnDefault("'WAITING'")
     private String orderState;
 
     @Column(nullable = false, name = "created_at")

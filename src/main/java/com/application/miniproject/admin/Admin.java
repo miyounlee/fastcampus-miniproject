@@ -1,10 +1,10 @@
 package com.application.miniproject.admin;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -15,6 +15,7 @@ import java.sql.Timestamp;
 @Table(name = "admin_tb")
 @NoArgsConstructor
 public class Admin {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,6 +33,7 @@ public class Admin {
     @Column(nullable = false, name = "created_at")
     private Timestamp createdAt;
 
+    @Builder
     public Admin(Long id, String username, String password, String email, Timestamp createdAt) {
         this.id = id;
         this.username = username;
