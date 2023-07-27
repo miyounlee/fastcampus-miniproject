@@ -1,21 +1,21 @@
 package com.application.miniproject.event;
 
+import com.application.miniproject.event.type.EventType;
+import com.application.miniproject.event.type.OrderState;
 import com.application.miniproject.user.User;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-@Getter
-@ToString
-@Entity
-@Table(name = "event_tb")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
+@Table(name = "event_tb")
+@Entity
 public class Event {
 
     @Id
@@ -33,26 +33,19 @@ public class Event {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String eventType;
+    private EventType eventType;
 
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("WAITING")
     @Column(nullable = false)
-    @ColumnDefault("'WAITING'")
-    private String orderState;
+    private OrderState orderState;
 
     @Column(nullable = false, name = "created_at")
     private Timestamp createdAt;
 
-    @Builder
-    public Event(Long id, LocalDate startDate, LocalDate endDate,
-                 int count, User user, String eventType, String orderState, Timestamp createdAt) {
-        this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.count = count;
-        this.user = user;
-        this.eventType = eventType;
-        this.orderState = orderState;
-        this.createdAt = createdAt;
-    }
+    @Column(nullable = false, name = "updated_at")
+    private Timestamp updatedAt;
+
 }
