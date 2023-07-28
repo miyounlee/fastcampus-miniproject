@@ -1,7 +1,6 @@
 package com.application.miniproject._core.security;
 
 import com.application.miniproject.user.User;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +16,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole().name());
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(String.valueOf(user.getRole()));
         return Collections.singleton(grantedAuthority);
     }
 
