@@ -23,7 +23,7 @@ public class User {
     @Column(nullable = false, length = 30)
     private String username;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String password;
 
     @Column(nullable = false, length = 50)
@@ -43,13 +43,14 @@ public class User {
 
     @Builder
     public User(Long id, String username, String password, String email, String imageUrl,
-                int annualCount, Timestamp createdAt, Timestamp updatedAt) {
+                int annualCount, UserType role, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.imageUrl = imageUrl;
         this.annualCount = annualCount;
+        this.role = role;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
