@@ -31,4 +31,12 @@ public class EventController {
 
         return ResponseEntity.ok(addRespDTO);
     }
+
+    @PostMapping("/cancel")
+    public ResponseEntity<?> cancelEvent(@RequestBody @Valid EventRequest.CancelDTO cancelReqDTO) {
+
+        eventService.cancel(cancelReqDTO.getEventId());
+
+        return ResponseEntity.ok(true);
+    }
 }

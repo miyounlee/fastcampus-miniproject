@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @DynamicInsert
 @Builder
 @Getter
+@Setter
 @Entity
 @Table(name = "event_tb")
 public class Event {
