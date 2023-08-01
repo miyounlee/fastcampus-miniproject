@@ -8,12 +8,11 @@ import com.application.miniproject.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/user/event")
@@ -38,5 +37,16 @@ public class EventController {
         eventService.cancel(cancelReqDTO.getEventId());
 
         return ResponseEntity.ok(true);
+    }
+
+    @GetMapping("/myList")
+    public ResponseEntity<?> myEventList(@AuthenticationPrincipal MyUserDetails myUserDetails) {
+
+        User user = myUserDetails.getUser();
+        Long userId = user.getId();
+
+        List<EventResponse.ListDTO> listDTOS = eventService.myEventList(userId);
+
+        return ResponseEntity.ok(listDTOS);
     }
 }
