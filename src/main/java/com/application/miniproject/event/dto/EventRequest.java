@@ -2,6 +2,7 @@ package com.application.miniproject.event.dto;
 
 import com.application.miniproject.event.Event;
 import com.application.miniproject.event.type.EventType;
+import com.application.miniproject.event.type.OrderState;
 import com.application.miniproject.user.User;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -34,6 +35,19 @@ public class EventRequest {
                     .count(addReqDTO.getCount())
                     .build();
         }
+    }
+
+    @Getter
+    @Setter
+    public static class CancelDTO {
+
+        @NotNull
+        private Long eventId;
+
+        @NotNull
+        private EventType eventType;
+
+        private OrderState orderState;
 
     }
 }

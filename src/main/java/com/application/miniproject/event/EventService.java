@@ -3,6 +3,7 @@ package com.application.miniproject.event;
 import com.application.miniproject.event.dto.EventRequest;
 import com.application.miniproject.event.dto.EventResponse;
 import com.application.miniproject.event.type.EventType;
+import com.application.miniproject.event.type.OrderState;
 import com.application.miniproject.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,18 @@ public class EventService {
         Event saveEvent = eventRepository.save(event);
 
         return EventResponse.AddDTO.from(saveEvent);
+    }
+
+    @Transactional
+    public void cancel(Long eventId) {
+
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("존재하지 않는 이벤트로 삭제가 불가 합니다."));
+
+        if (event.getOrderState() != OrderState.WAITING) {
+            throw new RuntimeException("이미 승인되어 취소가 불가 합니다.");
+        }
+
+        eventRepository.deleteById(eventId);
     }
 }
