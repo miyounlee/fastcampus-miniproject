@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum EventType {
 
-    ANNUAL("연차"),
+    LEAVE("연차"),
     DUTY("당직");
 
     private final String type;

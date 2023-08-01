@@ -5,17 +5,21 @@ import com.application.miniproject.event.type.OrderState;
 import com.application.miniproject.user.User;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@DynamicInsert
 @Builder
 @Getter
-@Table(name = "event_tb")
 @Entity
+@Table(name = "event_tb")
 public class Event {
 
     @Id
@@ -34,18 +38,18 @@ public class Event {
     private User user;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private EventType eventType;
 
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("WAITING")
-    @Column(nullable = false)
+    @ColumnDefault("'WAITING'")
     private OrderState orderState;
 
     @Column(nullable = false, name = "created_at")
+    @CreationTimestamp
     private Timestamp createdAt;
 
     @Column(nullable = false, name = "updated_at")
+    @UpdateTimestamp
     private Timestamp updatedAt;
 
 }
