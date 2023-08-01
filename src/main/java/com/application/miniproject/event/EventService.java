@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 public class EventService {
@@ -45,5 +48,15 @@ public class EventService {
         }
 
         eventRepository.deleteById(eventId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<EventResponse.ListDTO> myEventList(Long userId) {
+
+        List<Event> eventList = eventRepository.findAllByUserId(userId);
+
+        return eventList.stream()
+                .map(EventResponse.ListDTO::from)
+                .collect(Collectors.toList());
     }
 }
