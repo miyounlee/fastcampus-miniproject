@@ -43,17 +43,11 @@ public class AdminResponse {
         private Long userId;
         private String userName;
         private String userEmail;
-        private String userPhoneNumber;
-        private String userPosition;
-        private LocalDate userJoinDate;
 
         public UsersListDTO(User user) {
             this.userId = user.getId();
             this.userName = user.getUsername();
             this.userEmail = user.getEmail();
-            this.userPhoneNumber = user.getPhoneNumber();
-            this.userPosition = user.getPosition();
-            this.userJoinDate = user.getJoinDate();
         }
     }
 
@@ -63,17 +57,11 @@ public class AdminResponse {
         private Long userId;
         private String userName;
         private String userEmail;
-        private String userPhoneNumber;
-        private String userPosition;
-        private LocalDate userJoinDate;
 
         public UserDetailsDTO(User user) {
             this.userId = user.getId();
             this.userName = user.getUsername();
             this.userEmail = user.getEmail();
-            this.userPhoneNumber = user.getPhoneNumber();
-            this.userPosition = user.getPosition();
-            this.userJoinDate = user.getJoinDate();
         }
     }
 }

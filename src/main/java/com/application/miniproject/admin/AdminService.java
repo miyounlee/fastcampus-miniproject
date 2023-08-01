@@ -28,13 +28,17 @@ public class AdminService {
     }
 
     @Transactional
-    public void approveEventRequest(Long eventId) {
-        adminRepository.updateEventStatusById(eventId, OrderState.APPROVED);
+    public void leaveApproval(AdminRequest.ApprovalDTO request) {
+        Event event = adminRepository.findEventById(request.getEventId());
+        event.setOrderState(OrderState.valueOf(request.getOrderState()));
+        adminRepository.save(event);
     }
 
     @Transactional
-    public void rejectEventRequest(Long eventId) {
-        adminRepository.updateEventStatusById(eventId, OrderState.REJECTED);
+    public void dutyApproval(AdminRequest.ApprovalDTO request) {
+        Event event = adminRepository.findEventById(request.getEventId());
+        event.setOrderState(OrderState.valueOf(request.getOrderState()));
+        adminRepository.save(event);
     }
 
     @Transactional
