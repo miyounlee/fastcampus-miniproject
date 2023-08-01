@@ -49,4 +49,12 @@ public class EventController {
 
         return ResponseEntity.ok(listDTOS);
     }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> eventList() {
+
+        List<EventResponse.ListDTO> listDTOS = eventService.eventList();
+
+        return ResponseEntity.ok(listDTOS);
+    }
 }
