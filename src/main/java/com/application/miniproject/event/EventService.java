@@ -59,4 +59,14 @@ public class EventService {
                 .map(EventResponse.ListDTO::from)
                 .collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<EventResponse.ListDTO> eventList() {
+
+        List<Event> eventList = eventRepository.findAll();
+
+        return eventList.stream()
+                .map(EventResponse.ListDTO::from)
+                .collect(Collectors.toList());
+    }
 }
