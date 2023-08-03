@@ -1,19 +1,18 @@
 package com.application.miniproject.user;
 
-import com.application.miniproject.util.type.UserType;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.application.miniproject._core.util.type.UserType;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
+@Builder
+@Getter
 @Entity
 @Table(name = "user_tb")
-@NoArgsConstructor
 public class User {
 
     @Id
@@ -40,18 +39,4 @@ public class User {
 
     @Column(nullable = false, name = "updated_at")
     private Timestamp updatedAt;
-
-    @Builder
-    public User(Long id, String username, String password, String email, String imageUrl,
-                int annualCount, UserType role, Timestamp createdAt, Timestamp updatedAt) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.imageUrl = imageUrl;
-        this.annualCount = annualCount;
-        this.role = role;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
 }
