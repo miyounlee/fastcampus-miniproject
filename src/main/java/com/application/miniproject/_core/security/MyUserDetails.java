@@ -1,6 +1,7 @@
 package com.application.miniproject._core.security;
 
 import com.application.miniproject.user.User;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+@Getter
 @RequiredArgsConstructor
 public class MyUserDetails implements UserDetails {
 
