@@ -1,4 +1,4 @@
-package com.application.miniproject.util.type;
+package com.application.miniproject._core.util.type;
 
 public enum UserType {
     USER, ADMIN
