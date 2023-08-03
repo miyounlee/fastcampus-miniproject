@@ -1,8 +1,13 @@
 package com.application.miniproject._core.security;
 
+import com.application.miniproject._core.error.exception.Exception401;
+import com.application.miniproject._core.error.exception.Exception403;
+import com.application.miniproject._core.util.FilterRespUtil;
+import com.application.miniproject._core.util.JwtFilterRespUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,25 +28,12 @@ import java.util.List;
 public class MySecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtFilterRespUtil jwtFilterRespUtil;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
-
-//    public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
-//        @Override
-//        public void configure(HttpSecurity builder) {
-//            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-//            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtService);
-//            builder.addFilter(jwtAuthenticationFilter);
-//        }
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -59,21 +51,20 @@ public class MySecurityConfig {
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
+        http.addFilterBefore(jwtFilterRespUtil, JwtAuthenticationFilter.class);
+
         // 8. 인증 실패 처리
         http.exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-            System.out.println("인증되지 않은 사용자가 자원에 접근하려 합니다 : "+authException.getMessage());
+            FilterRespUtil.unAuthorized(response, new Exception401("인증되지 않았습니다"));
         });
 
         // 9. 권한 실패 처리
         http.exceptionHandling().accessDeniedHandler((request, response, accessDeniedException) -> {
-            System.out.println("권한이 없는 사용자가 자원에 접근하려 합니다 : "+accessDeniedException.getMessage());
+            FilterRespUtil.forbidden(response, new Exception403("권한이 없습니다"));
         });
 
         http.authorizeHttpRequests(auth ->
                 auth.antMatchers("/user/test").authenticated());
-
-//        http.apply(new CustomSecurityFilterManager());
-
 
         return http.build();
     }
@@ -85,7 +76,7 @@ public class MySecurityConfig {
         configuration.setAllowedOriginPatterns(List.of("*")); // IP 전부 허용
         configuration.setAllowedHeaders(List.of("*")); // 헤더 허용
         configuration.setAllowCredentials(true); // 자바스크립트 응답을 처리할 수 있게 할지 설정(ajax, axios)
-        configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader(HttpHeaders.AUTHORIZATION);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
