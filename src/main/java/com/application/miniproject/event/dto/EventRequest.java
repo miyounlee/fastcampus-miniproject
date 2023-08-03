@@ -13,7 +13,6 @@ import java.time.LocalDate;
 public class EventRequest {
 
     @Getter
-    @Setter
     public static class AddDTO {
 
         @NotNull
@@ -35,19 +34,5 @@ public class EventRequest {
                     .count(addReqDTO.getCount())
                     .build();
         }
-    }
-
-    @Getter
-    @Setter
-    public static class CancelDTO {
-
-        @NotNull
-        private Long eventId;
-
-        @NotNull
-        private EventType eventType;
-
-        private OrderState orderState;
-
     }
 }
