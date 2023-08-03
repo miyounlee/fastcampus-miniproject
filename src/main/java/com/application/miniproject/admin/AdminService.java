@@ -1,6 +1,7 @@
 package com.application.miniproject.admin;
 
 import com.application.miniproject.admin.dto.AdminResponse;
+import com.application.miniproject.admin.dto.AdminRequest;
 import com.application.miniproject.event.Event;
 import com.application.miniproject.event.dto.EventResponse;
 import com.application.miniproject.user.User;
@@ -31,14 +32,12 @@ public class AdminService {
     public void leaveApproval(AdminRequest.ApprovalDTO request) {
         Event event = adminRepository.findEventById(request.getEventId());
         event.setOrderState(OrderState.valueOf(request.getOrderState()));
-        adminRepository.save(event);
     }
 
     @Transactional
     public void dutyApproval(AdminRequest.ApprovalDTO request) {
         Event event = adminRepository.findEventById(request.getEventId());
         event.setOrderState(OrderState.valueOf(request.getOrderState()));
-        adminRepository.save(event);
     }
 
     @Transactional
@@ -50,4 +49,5 @@ public class AdminService {
     public User getUserDetails(Long userId) {
         return adminRepository.findUserById(userId);
     }
+
 }

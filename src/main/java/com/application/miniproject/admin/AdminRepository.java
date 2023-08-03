@@ -52,4 +52,8 @@ public class AdminRepository {
 
         return query.getResultList();
     }
+    public User findUserById(Long userId) {
+        return entityManager.find(User.class, userId);
+    }
+
 }
