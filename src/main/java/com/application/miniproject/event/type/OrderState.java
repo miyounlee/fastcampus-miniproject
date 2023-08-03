@@ -2,9 +2,10 @@ package com.application.miniproject.event.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
 @AllArgsConstructor
+@Getter
 public enum OrderState {
 
     WAITING("승인 대기"),
