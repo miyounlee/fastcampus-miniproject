@@ -2,7 +2,7 @@ package com.application.miniproject.user.dto;
 
 import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject.user.User;
-import com.application.miniproject.util.type.UserType;
+import com.application.miniproject._core.util.type.UserType;
 import lombok.Getter;
 import lombok.Setter;
 
