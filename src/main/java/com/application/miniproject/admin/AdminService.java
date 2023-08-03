@@ -3,9 +3,8 @@ package com.application.miniproject.admin;
 import com.application.miniproject.admin.dto.AdminResponse;
 import com.application.miniproject.admin.dto.AdminRequest;
 import com.application.miniproject.event.Event;
-import com.application.miniproject.event.dto.EventResponse;
-import com.application.miniproject.user.User;
 import com.application.miniproject.event.type.OrderState;
+import com.application.miniproject.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,13 +30,13 @@ public class AdminService {
     @Transactional
     public void leaveApproval(AdminRequest.ApprovalDTO request) {
         Event event = adminRepository.findEventById(request.getEventId());
-        event.setOrderState(OrderState.valueOf(request.getOrderState()));
+        event.setOrderState(request.getOrderState());
     }
 
     @Transactional
     public void dutyApproval(AdminRequest.ApprovalDTO request) {
         Event event = adminRepository.findEventById(request.getEventId());
-        event.setOrderState(OrderState.valueOf(request.getOrderState()));
+        event.setOrderState(request.getOrderState());
     }
 
     @Transactional
