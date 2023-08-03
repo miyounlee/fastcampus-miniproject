@@ -1,5 +1,6 @@
 package com.application.miniproject.user.dto;
 
+import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject.user.User;
 import com.application.miniproject.util.type.UserType;
 import lombok.Getter;
@@ -26,10 +27,10 @@ public class UserRequest {
                 message = "최소 하나의 알파벳, 하나의 숫자, 하나의 특수 문자를 포함해야 합니다.")
         private String password;
 
-        public User toCipherEntity(String password) {
+        public User toCipherEntity(String password, Aes256 aes256) {
             return User.builder()
-                    .username(username)
-                    .email(email)
+                    .username(aes256.encrypt(username))
+                    .email(aes256.encrypt(email))
                     .password(password)
                     .role(UserType.USER)
                     .createdAt(Timestamp.valueOf(LocalDateTime.now()))

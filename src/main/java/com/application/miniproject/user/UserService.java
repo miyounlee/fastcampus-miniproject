@@ -1,5 +1,6 @@
 package com.application.miniproject.user;
 
+import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject._core.security.JwtProvider;
 import com.application.miniproject.user.dto.UserRequest;
 import com.application.miniproject.user.dto.UserResponse;
@@ -15,6 +16,7 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
+    private final Aes256 aes256;
 
     /**
      * 회원가입
@@ -26,7 +28,7 @@ public class UserService {
             throw new RuntimeException("이메일 중복");
         }
         String password = bCryptPasswordEncoder.encode(joinDTO.getPassword());
-        userRepository.save(joinDTO.toCipherEntity(password));
+        userRepository.save(joinDTO.toCipherEntity(password, aes256));
     }
 
     /**
@@ -35,7 +37,7 @@ public class UserService {
      */
     @Transactional(readOnly = true)
     public UserResponse.LoginDTO loginUser(UserRequest.LoginDTO loginDTO) {
-        User user = userRepository.findByEmail(loginDTO.getEmail())
+        User user = userRepository.findByEmail(aes256.encrypt(loginDTO.getEmail()))
                 .orElseThrow(() -> new RuntimeException("로그인 에러"));
 
         boolean passwordMatches = bCryptPasswordEncoder.matches(loginDTO.getPassword(), user.getPassword());
@@ -45,8 +47,8 @@ public class UserService {
         }
         return UserResponse.LoginDTO.builder()
                 .userId(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
+                .username(aes256.decrypt(user.getEmail()))
+                .email(aes256.decrypt(user.getUsername()))
                 .imageUrl(user.getImageUrl())
                 .accessToken(jwtProvider.generateToken(user))
                 .build();
