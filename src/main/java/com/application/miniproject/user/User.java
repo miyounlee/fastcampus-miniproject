@@ -2,6 +2,7 @@ package com.application.miniproject.user;
 
 import com.application.miniproject._core.util.type.UserType;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @ToString
 @Builder
+@Setter
 @Getter
 @Entity
 @Table(name = "user_tb")
@@ -29,6 +31,9 @@ public class User {
     private String email;
 
     private String imageUrl;
+
+    @Column(nullable = false)
+    @ColumnDefault("15")
     private int annualCount;
 
     @Enumerated(EnumType.STRING)
@@ -39,4 +44,12 @@ public class User {
 
     @Column(nullable = false, name = "updated_at")
     private Timestamp updatedAt;
+
+    public void update(User user){
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.email = user.getEmail();
+        this.imageUrl = user.getImageUrl();
+        this.role = user.getRole();
+    }
 }

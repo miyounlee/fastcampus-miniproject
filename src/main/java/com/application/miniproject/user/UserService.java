@@ -2,12 +2,16 @@ package com.application.miniproject.user;
 
 import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject._core.security.JwtProvider;
+//import com.application.miniproject._core.util.S3Service;
 import com.application.miniproject.user.dto.UserRequest;
 import com.application.miniproject.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final Aes256 aes256;
+//    private final S3Service s3Service;
 
     /**
      * 회원가입
@@ -62,6 +67,62 @@ public class UserService {
         boolean isEmailUser = userRepository.findByEmail(emailDTO.getEmail()).isEmpty();
         return UserResponse.DuplicateEmailDTO.builder()
                 .responseType(isEmailUser)
+                .build();
+    }
+
+    @Transactional
+    public UserResponse.UserDetailDTO userDetail(Long id) {
+        User userPS = userRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("해당 유저를 찾을 수 없습니다")
+        );
+        return UserResponse.UserDetailDTO.builder()
+                .userId(userPS.getId())
+                .username(aes256.decrypt(userPS.getUsername()))
+                .email(aes256.decrypt(userPS.getEmail()))
+                .imageUrl(userPS.getImageUrl())
+                .annualCount(userPS.getAnnualCount())
+                .updatedAt(userPS.getUpdatedAt())
+                .build();
+    }
+
+    @Transactional
+    public UserResponse.UserDetailDTO modifyUser(
+            Long id, UserRequest.ModifyDTO modifyDTO, MultipartFile image
+    ) throws IOException {
+        User userPS = userRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("해당 유저를 찾을 수 없습니다")
+        );
+
+        String email = userPS.getEmail();
+        String imageUrl = userPS.getImageUrl();
+        String newPassword;
+        String username;
+        if (modifyDTO.getNewPassword() != null) {
+            newPassword = modifyDTO.getNewPassword();
+        } else {
+            newPassword = modifyDTO.getPassword();
+        }
+
+        if (modifyDTO.getUsername() != null) {
+            username = modifyDTO.getUsername();
+        } else {
+            username = userPS.getUsername();
+        }
+
+//        if (image == null) {
+//            imageUrl = userPS.getImageUrl();
+//        } else {
+            // TODO : S3 image Url
+//            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
+//        }
+        userPS.update(modifyDTO.toEntity(email, newPassword, username, imageUrl, aes256));
+        return UserResponse.UserDetailDTO.builder()
+                .userId(userPS.getId())
+                .username(aes256.decrypt(userPS.getUsername()))
+                .email(aes256.decrypt(userPS.getEmail()))
+                .imageUrl(userPS.getImageUrl())
+                .annualCount(userPS.getAnnualCount())
+                .updatedAt(userPS.getUpdatedAt())
                 .build();
     }
 }

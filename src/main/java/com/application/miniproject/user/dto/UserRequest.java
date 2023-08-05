@@ -5,6 +5,8 @@ import com.application.miniproject.user.User;
 import com.application.miniproject._core.util.type.UserType;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -33,6 +35,7 @@ public class UserRequest {
                     .email(aes256.encrypt(email))
                     .password(password)
                     .role(UserType.USER)
+                    .annualCount(15)
                     .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                     .updatedAt(Timestamp.valueOf(LocalDateTime.now()))
                     .build();
@@ -53,5 +56,35 @@ public class UserRequest {
     public static class EmailDTO {
         @Email(message = "유효하지 않는 이메일 형태입니다.")
         private String email;
+    }
+
+    @Getter
+    @Setter
+    @ToString
+    public static class ModifyDTO {
+        @NotBlank(message = "패스워드는 공백일 수 없습니다.1111111")
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,15}$",
+                message = "최소 하나의 알파벳, 하나의 숫자, 하나의 특수 문자를 포함해야 합니다.")
+        private String password;
+
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,15}$",
+                message = "최소 하나의 알파벳, 하나의 숫자, 하나의 특수 문자를 포함해야 합니다.")
+        private String newPassword;
+
+        private String email;
+        private String username;
+        private String imageUrl;
+
+        public User toEntity(String email, String newPassword, String username, String imageUrl, Aes256 aes256) {
+            return User.builder()
+                    .email(aes256.encrypt(email))
+                    .password(aes256.encrypt(newPassword))
+                    .username(aes256.encrypt(username))
+                    .imageUrl(imageUrl)
+                    .role(UserType.USER)
+                    .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                    .updatedAt(Timestamp.valueOf(LocalDateTime.now()))
+                    .build();
+        }
     }
 }
