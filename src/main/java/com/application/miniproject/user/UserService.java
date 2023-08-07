@@ -48,7 +48,7 @@ public class UserService {
      *  로그인
      *  TODO 로그인 에러 custom exception
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public UserResponse.LoginDTO loginUser(UserRequest.LoginDTO loginDTO, HttpServletRequest request) {
         User user = userRepository.findByEmail(aes256.encrypt(loginDTO.getEmail()))
                 .orElseThrow(() -> new RuntimeException("로그인 에러"));

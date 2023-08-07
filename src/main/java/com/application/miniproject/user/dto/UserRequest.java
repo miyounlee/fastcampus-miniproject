@@ -33,7 +33,7 @@ public class UserRequest {
                     .username(aes256.encrypt(username))
                     .email(aes256.encrypt(email))
                     .password(password)
-                    .role(UserType.USER)
+                    .role(UserType.ROLE_USER)
                     .annualCount(15)
                     .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                     .updatedAt(Timestamp.valueOf(LocalDateTime.now()))
@@ -86,7 +86,7 @@ public class UserRequest {
                     .password(newPassword)
                     .username(username)
                     .imageUrl(imageUrl)
-                    .role(UserType.USER)
+                    .role(UserType.ROLE_USER)
                     .createdAt(Timestamp.valueOf(LocalDateTime.now()))
                     .updatedAt(Timestamp.valueOf(LocalDateTime.now()))
                     .build();
