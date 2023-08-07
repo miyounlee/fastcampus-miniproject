@@ -146,9 +146,10 @@ public class UserService {
 //        if (image == null) {
 //            imageUrl = userPS.getImageUrl();
 //        } else {
-            // TODO : S3 image Url
+        // TODO : S3 image Url
 //            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
 //        }
+
         userPS.update(modifyDTO.toEntity(email, newPassword, username, imageUrl, aes256));
         return UserResponse.UserDetailDTO.builder()
                 .userId(userPS.getId())
