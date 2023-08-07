@@ -1,7 +1,7 @@
 package com.application.miniproject.event;
 
-import com.application.miniproject._core.dto.ApiResponse;
 import com.application.miniproject._core.security.MyUserDetails;
+import com.application.miniproject._core.util.ApiUtils;
 import com.application.miniproject.event.dto.EventRequest;
 import com.application.miniproject.event.dto.EventResponse;
 import com.application.miniproject.user.User;
@@ -27,7 +27,7 @@ public class EventController {
         User user = myUserDetails.getUser();
         EventResponse.AddDTO addRespDTO = eventService.add(addReqDTO, user);
 
-        return ResponseEntity.ok(new ApiResponse<>(addRespDTO));
+        return ResponseEntity.ok(new ApiUtils<>(addRespDTO));
     }
 
     @PostMapping("/cancel/{id}")
@@ -35,7 +35,7 @@ public class EventController {
 
         eventService.cancel(id);
 
-        return ResponseEntity.ok(new ApiResponse<>(true));
+        return ResponseEntity.ok(new ApiUtils<>(true));
     }
 
     @GetMapping("/myList")
@@ -46,7 +46,7 @@ public class EventController {
 
         List<EventResponse.ListDTO> listDTOS = eventService.myEventList(userId);
 
-        return ResponseEntity.ok(new ApiResponse<>(listDTOS));
+        return ResponseEntity.ok(new ApiUtils<>(listDTOS));
     }
 
     @GetMapping("/list")
@@ -54,6 +54,6 @@ public class EventController {
 
         List<EventResponse.ListDTO> listDTOS = eventService.eventList();
 
-        return ResponseEntity.ok(new ApiResponse<>(listDTOS));
+        return ResponseEntity.ok(new ApiUtils<>(listDTOS));
     }
 }
