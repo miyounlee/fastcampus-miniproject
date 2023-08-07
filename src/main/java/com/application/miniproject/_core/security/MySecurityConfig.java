@@ -4,6 +4,7 @@ import com.application.miniproject._core.error.exception.Exception401;
 import com.application.miniproject._core.error.exception.Exception403;
 import com.application.miniproject._core.util.FilterRespUtil;
 import com.application.miniproject._core.util.JwtFilterRespUtil;
+import com.application.miniproject._core.util.type.UserType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,7 +65,9 @@ public class MySecurityConfig {
         });
 
         http.authorizeHttpRequests(auth ->
-                auth.antMatchers("/user/test").authenticated());
+                auth.antMatchers("/user/login", "/user/join").permitAll()
+                        .antMatchers("/admin/**").hasRole("ADMIN")
+                        .antMatchers("/**").authenticated());
 
         return http.build();
     }
