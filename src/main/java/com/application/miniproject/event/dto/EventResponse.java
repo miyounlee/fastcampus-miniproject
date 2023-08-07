@@ -14,6 +14,7 @@ import java.time.LocalDate;
 public class EventResponse {
 
     @Builder
+    @Getter
     public static class AddDTO {
 
         private Long userId;
@@ -36,6 +37,7 @@ public class EventResponse {
     }
 
     @Builder
+    @Getter
     public static class ListDTO {
 
         private String username;

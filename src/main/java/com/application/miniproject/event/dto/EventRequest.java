@@ -4,15 +4,18 @@ import com.application.miniproject.event.Event;
 import com.application.miniproject.event.type.EventType;
 import com.application.miniproject.event.type.OrderState;
 import com.application.miniproject.user.User;
-import com.sun.istack.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class EventRequest {
 
+    @NoArgsConstructor
     @Getter
+    @Setter
     public static class AddDTO {
 
         @NotNull
