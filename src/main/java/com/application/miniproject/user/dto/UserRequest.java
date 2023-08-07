@@ -6,7 +6,6 @@ import com.application.miniproject._core.util.type.UserType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -62,24 +61,30 @@ public class UserRequest {
     @Setter
     @ToString
     public static class ModifyDTO {
-        @NotBlank(message = "패스워드는 공백일 수 없습니다.1111111")
+        @NotBlank(message = "패스워드는 공백일 수 없습니다.")
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,15}$",
                 message = "최소 하나의 알파벳, 하나의 숫자, 하나의 특수 문자를 포함해야 합니다.")
-        private String password;
+        private String currentPassword;
 
+        @NotBlank(message = "패스워드는 공백일 수 없습니다.")
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,15}$",
                 message = "최소 하나의 알파벳, 하나의 숫자, 하나의 특수 문자를 포함해야 합니다.")
         private String newPassword;
+
+        @NotBlank(message = "패스워드는 공백일 수 없습니다.")
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,15}$",
+                message = "최소 하나의 알파벳, 하나의 숫자, 하나의 특수 문자를 포함해야 합니다.")
+        private String newPasswordCheck;
 
         private String email;
         private String username;
         private String imageUrl;
 
-        public User toEntity(String email, String newPassword, String username, String imageUrl, Aes256 aes256) {
+        public User toEntity(String email, String newPassword, String username, String imageUrl) {
             return User.builder()
-                    .email(aes256.encrypt(email))
-                    .password(aes256.encrypt(newPassword))
-                    .username(aes256.encrypt(username))
+                    .email(email)
+                    .password(newPassword)
+                    .username(username)
                     .imageUrl(imageUrl)
                     .role(UserType.USER)
                     .createdAt(Timestamp.valueOf(LocalDateTime.now()))
