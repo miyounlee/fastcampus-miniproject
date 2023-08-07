@@ -1,6 +1,6 @@
 package com.application.miniproject.event;
 
-
+import com.application.miniproject._core.dto.ApiResponse;
 import com.application.miniproject._core.security.MyUserDetails;
 import com.application.miniproject.event.dto.EventRequest;
 import com.application.miniproject.event.dto.EventResponse;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/user/event")
@@ -28,15 +27,15 @@ public class EventController {
         User user = myUserDetails.getUser();
         EventResponse.AddDTO addRespDTO = eventService.add(addReqDTO, user);
 
-        return ResponseEntity.ok(addRespDTO);
+        return ResponseEntity.ok(new ApiResponse<>(addRespDTO));
     }
 
-    @PostMapping("/cancel")
-    public ResponseEntity<?> cancelEvent(@RequestBody @Valid EventRequest.CancelDTO cancelReqDTO) {
+    @PostMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelEvent(@PathVariable Long id) {
 
-        eventService.cancel(cancelReqDTO.getEventId());
+        eventService.cancel(id);
 
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(new ApiResponse<>(true));
     }
 
     @GetMapping("/myList")
@@ -47,7 +46,7 @@ public class EventController {
 
         List<EventResponse.ListDTO> listDTOS = eventService.myEventList(userId);
 
-        return ResponseEntity.ok(listDTOS);
+        return ResponseEntity.ok(new ApiResponse<>(listDTOS));
     }
 
     @GetMapping("/list")
@@ -55,6 +54,6 @@ public class EventController {
 
         List<EventResponse.ListDTO> listDTOS = eventService.eventList();
 
-        return ResponseEntity.ok(listDTOS);
+        return ResponseEntity.ok(new ApiResponse<>(listDTOS));
     }
 }
