@@ -37,7 +37,7 @@ public class UserService {
      */
     @Transactional
     public void joinUser(UserRequest.JoinDTO joinDTO) {
-        if (userRepository.findByEmail(joinDTO.getEmail()).isPresent()) {
+        if (userRepository.findByEmail(aes256.encrypt(joinDTO.getEmail())).isPresent()) {
             throw new RuntimeException("이메일 중복");
         }
         String password = bCryptPasswordEncoder.encode(joinDTO.getPassword());
@@ -74,7 +74,7 @@ public class UserService {
         try {
             String remoteAddr = request.getRemoteAddr();
             InetAddress inetAddr = InetAddress.getByName(remoteAddr);
-            byte[] ipv4Bytes = Arrays.copyOfRange(inetAddr.getAddress(), 12, 16);
+            byte[] ipv4Bytes = inetAddr.getAddress();
             String ipv4Addr = InetAddress.getByAddress(ipv4Bytes).getHostAddress();
 
             String userAgent = request.getHeader("User-Agent");
@@ -97,7 +97,7 @@ public class UserService {
      */
     @Transactional(readOnly = true)
     public UserResponse.DuplicateEmailDTO isEmailUser(UserRequest.EmailDTO emailDTO) {
-        boolean isEmailUser = userRepository.findByEmail(emailDTO.getEmail()).isEmpty();
+        boolean isEmailUser = userRepository.findByEmail(aes256.encrypt(emailDTO.getEmail())).isEmpty();
         return UserResponse.DuplicateEmailDTO.builder()
                 .responseType(isEmailUser)
                 .build();

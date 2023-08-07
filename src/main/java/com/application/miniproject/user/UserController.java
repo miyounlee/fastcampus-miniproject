@@ -26,14 +26,14 @@ public class UserController {
     public ResponseEntity<?> join(@Valid @RequestBody UserRequest.JoinDTO joinDTO) {
         userService.joinUser(joinDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiUtils.success("회원가입 성공"));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody UserRequest.LoginDTO loginDTO, HttpServletRequest request) {
         UserResponse.LoginDTO response = userService.loginUser(loginDTO, request);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(new ApiUtils<>(response));
     }
 
 
@@ -41,7 +41,7 @@ public class UserController {
     public ResponseEntity<?> email(@Valid @RequestBody UserRequest.EmailDTO emailDTO) {
         UserResponse.DuplicateEmailDTO duplicateEmailDTO = userService.isEmailUser(emailDTO);
 
-        return ResponseEntity.ok().body(duplicateEmailDTO);
+        return ResponseEntity.ok().body(new ApiUtils<>(duplicateEmailDTO));
     }
 
     @GetMapping("/myinfo")
@@ -49,7 +49,7 @@ public class UserController {
         UserResponse.UserDetailDTO detailOutDTO = userService.userDetail(myUserDetails.getUser().getId());
         ApiUtils<?> responseDTO = new ApiUtils<>(detailOutDTO);
 
-        return ResponseEntity.ok().body(responseDTO);
+        return ResponseEntity.ok().body(new ApiUtils<>(responseDTO));
     }
 
     @PutMapping("/myinfo")
