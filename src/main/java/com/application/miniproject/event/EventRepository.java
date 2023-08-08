@@ -23,6 +23,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
             "OR (:endDate = e.startDate OR :endDate = e.endDate) " +
             "OR (e.startDate >= :startDate AND e.startDate <= :endDate)" +
             "OR (e.endDate >= :startDate AND e.endDate <= :endDate)")
-    Optional<Event> findDuplicatedEvent(@Param("user") User user, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    List<Event> findDuplicatedEvent(@Param("user") User user, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
 }

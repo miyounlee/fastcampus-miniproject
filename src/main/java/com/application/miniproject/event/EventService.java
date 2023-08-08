@@ -49,9 +49,9 @@ public class EventService {
             });
         }
 
-        eventRepository.findDuplicatedEvent(user, startDate, endDate).ifPresent(event -> {
+        if (!eventRepository.findDuplicatedEvent(user, startDate, endDate).isEmpty()) {
             throw new Exception500("해당 일자에 연차/당직 신청내역이 존재합니다. 취소 후 다시 신청해 주세요.");
-        });
+        }
     }
 
     @Transactional
