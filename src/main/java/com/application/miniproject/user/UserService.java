@@ -1,14 +1,18 @@
 package com.application.miniproject.user;
 
+import com.application.miniproject._core.error.exception.Exception404;
 import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject._core.security.JwtProvider;
 //import com.application.miniproject._core.util.S3Service;
 import com.application.miniproject.user.dto.UserRequest;
 import com.application.miniproject.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,7 +23,9 @@ import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -31,70 +37,69 @@ public class UserService {
     private final Aes256 aes256;
 //    private final S3Service s3Service;
 
-    /**
-     * 회원가입
-     * TODO 이메일 중복 체크 Custom Exception
-     */
     @Transactional
     public void joinUser(UserRequest.JoinDTO joinDTO) {
         if (userRepository.findByEmail(aes256.encrypt(joinDTO.getEmail())).isPresent()) {
-            throw new RuntimeException("이메일 중복");
+            throw new Exception404("잘못된 요청입니다.");
         }
         String password = bCryptPasswordEncoder.encode(joinDTO.getPassword());
         userRepository.save(joinDTO.toCipherEntity(password, aes256));
     }
 
-    /**
-     *  로그인
-     *  TODO 로그인 에러 custom exception
-     */
     @Transactional
     public UserResponse.LoginDTO loginUser(UserRequest.LoginDTO loginDTO, HttpServletRequest request) {
         User user = userRepository.findByEmail(aes256.encrypt(loginDTO.getEmail()))
-                .orElseThrow(() -> new RuntimeException("로그인 에러"));
+                .orElseThrow(() -> new Exception404("잘못된 요청입니다."));
 
         boolean passwordMatches = bCryptPasswordEncoder.matches(loginDTO.getPassword(), user.getPassword());
 
         if (!passwordMatches) {
-            throw new RuntimeException("로그인 에러");
+            throw new Exception404("잘못된 요청입니다.");
         }
 
         createUserHistory(user, request);
 
         return UserResponse.LoginDTO.builder()
                 .userId(user.getId())
-                .username(aes256.decrypt(user.getEmail()))
-                .email(aes256.decrypt(user.getUsername()))
+                .username(aes256.decrypt(user.getUsername()))
+                .email(aes256.decrypt(user.getEmail()))
                 .imageUrl(user.getImageUrl())
                 .accessToken(jwtProvider.generateToken(user))
                 .build();
     }
 
     private void createUserHistory(User user, HttpServletRequest request) {
-        try {
-            String remoteAddr = request.getRemoteAddr();
-            InetAddress inetAddr = InetAddress.getByName(remoteAddr);
-            byte[] ipv4Bytes = inetAddr.getAddress();
-            String ipv4Addr = InetAddress.getByAddress(ipv4Bytes).getHostAddress();
+        List<String> headers = List.of("X-Forwarded-For", "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR",
+                "HTTP_X_FORWARDED", "HTTP_FORWARDED_FOR", "HTTP_FORWARDED", "Proxy-Client-IP", "WL-Proxy-Client-IP",
+                "HTTP_VIA", "IPV6_ADR");
 
-            String userAgent = request.getHeader("User-Agent");
+        String clientIp = null;
+        boolean isClientIp = false;
 
-            UserHistory userHistory = UserHistory.builder()
-                    .clientIp(ipv4Addr)
-                    .userAgent(userAgent)
-                    .user(user)
-                    .createdAt(Timestamp.valueOf(LocalDateTime.now()))
-                    .build();
-
-            userHistoryRepository.save(userHistory);
-        } catch (UnknownHostException e) {
-            throw new RuntimeException("로그인 히스토리 에러");
+        for (String header : headers) {
+            clientIp = request.getHeader(header);
+            if (StringUtils.hasText(clientIp) && !clientIp.equals("unknown")) {
+                isClientIp = true;
+                break;
+            }
         }
+
+        if (!isClientIp) {
+            clientIp = request.getRemoteAddr();
+        }
+
+        String userAgent = request.getHeader("User-Agent");
+
+        UserHistory userHistory = UserHistory.builder()
+                .clientIp(clientIp)
+                .userAgent(userAgent)
+                .user(user)
+                .createdAt(Timestamp.valueOf(LocalDateTime.now()))
+                .build();
+
+        userHistoryRepository.save(userHistory);
     }
 
-    /**
-     *  이메일 검사
-     */
     @Transactional(readOnly = true)
     public UserResponse.DuplicateEmailDTO isEmailUser(UserRequest.EmailDTO emailDTO) {
         boolean isEmailUser = userRepository.findByEmail(aes256.encrypt(emailDTO.getEmail())).isEmpty();
