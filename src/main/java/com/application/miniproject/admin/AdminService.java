@@ -1,9 +1,9 @@
 package com.application.miniproject.admin;
 
+import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject.admin.dto.AdminResponse;
 import com.application.miniproject.admin.dto.AdminRequest;
 import com.application.miniproject.event.Event;
-import com.application.miniproject.event.type.OrderState;
 import com.application.miniproject.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,20 @@ import java.util.stream.Collectors;
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final Aes256 aes256;
 
     @Transactional
     public List<AdminResponse.EventRequestListDTO> getEventRequestList() {
         List<Event> events = adminRepository.findAllEvents();
 
         return events.stream()
-                .map(AdminResponse.EventRequestListDTO::new)
+                .map(event -> {
+                    String decryptedUsername = aes256.decrypt(event.getUser().getUsername());
+                    String decryptedEmail = aes256.decrypt(event.getUser().getEmail());
+                    event.getUser().setUsername(decryptedUsername);
+                    event.getUser().setEmail(decryptedEmail);
+                    return new AdminResponse.EventRequestListDTO(event);
+                })
                 .collect(Collectors.toList());
     }
 
@@ -48,5 +55,4 @@ public class AdminService {
     public User getUserDetails(Long userId) {
         return adminRepository.findUserById(userId);
     }
-
 }
