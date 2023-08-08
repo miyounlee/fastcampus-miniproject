@@ -49,7 +49,7 @@ public class UserController {
         UserResponse.UserDetailDTO detailOutDTO = userService.userDetail(myUserDetails.getUser().getId());
         ApiUtils<?> responseDTO = new ApiUtils<>(detailOutDTO);
 
-        return ResponseEntity.ok().body(new ApiUtils<>(responseDTO));
+        return ResponseEntity.ok().body(responseDTO);
     }
 
     @PutMapping("/myinfo")
