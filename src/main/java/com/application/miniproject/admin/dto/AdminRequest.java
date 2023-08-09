@@ -2,22 +2,18 @@ package com.application.miniproject.admin.dto;
 
 import com.application.miniproject.event.type.OrderState;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
 
 public class AdminRequest {
 
-    @Getter
-    @Setter
-    public static class UserDetailsDTO {
-        private String phoneNumber;
-        private String position;
-        private String roles;
+    private AdminRequest() {
+        //인스턴스화 방지
     }
 
     @Getter
-    @Setter
+    @Builder
     public static class ApprovalDTO {
-        private Long eventId;
-        private OrderState orderState;
+        private final Long eventId;
+        private final OrderState orderState;
     }
 }

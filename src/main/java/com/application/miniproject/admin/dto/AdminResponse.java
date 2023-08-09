@@ -1,9 +1,8 @@
 package com.application.miniproject.admin.dto;
 
 import com.application.miniproject.event.Event;
-import com.application.miniproject.user.User;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
@@ -14,16 +13,16 @@ public class AdminResponse {
     }
 
     @Getter
-    @Setter
+    @Builder
     public static class EventRequestListDTO {
-        private Long eventId;
-        private Long userId;
-        private String userName;
-        private String userEmail;
-        private String eventType;
-        private LocalDate startDate;
-        private LocalDate endDate;
-        private String orderState;
+        private final Long eventId;
+        private final Long userId;
+        private final String userName;
+        private final String userEmail;
+        private final String eventType;
+        private final LocalDate startDate;
+        private final LocalDate endDate;
+        private final String orderState;
 
         public EventRequestListDTO(Event event) {
             this.eventId = event.getId();
@@ -34,34 +33,6 @@ public class AdminResponse {
             this.startDate = event.getStartDate();
             this.endDate = event.getEndDate();
             this.orderState = event.getOrderState().toString();
-        }
-    }
-
-    @Getter
-    @Setter
-    public static class UsersListDTO {
-        private Long userId;
-        private String userName;
-        private String userEmail;
-
-        public UsersListDTO(User user) {
-            this.userId = user.getId();
-            this.userName = user.getUsername();
-            this.userEmail = user.getEmail();
-        }
-    }
-
-    @Getter
-    @Setter
-    public static class UserDetailsDTO {
-        private Long userId;
-        private String userName;
-        private String userEmail;
-
-        public UserDetailsDTO(User user) {
-            this.userId = user.getId();
-            this.userName = user.getUsername();
-            this.userEmail = user.getEmail();
         }
     }
 }

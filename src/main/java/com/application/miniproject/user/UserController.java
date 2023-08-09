@@ -57,6 +57,7 @@ public class UserController {
             @AuthenticationPrincipal MyUserDetails myUserDetails,
             @RequestPart @Valid UserRequest.ModifyDTO modifyDTO,
             @RequestPart(required=false) MultipartFile image
+
     ) throws IOException
     {
         UserResponse.UserDetailDTO detailOutDTO = userService.modifyUser(myUserDetails.getUser().getId(), modifyDTO, image);
