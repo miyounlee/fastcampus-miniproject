@@ -4,7 +4,7 @@ import com.application.miniproject._core.error.exception.Exception400;
 import com.application.miniproject._core.error.exception.Exception404;
 import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject._core.security.JwtProvider;
-//import com.application.miniproject._core.util.S3Service;
+import com.application.miniproject._core.util.S3Service;
 import com.application.miniproject.user.dto.UserRequest;
 import com.application.miniproject.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,9 +23,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class UserService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -32,7 +33,7 @@ public class UserService {
     private final UserHistoryRepository userHistoryRepository;
     private final JwtProvider jwtProvider;
     private final Aes256 aes256;
-//    private final S3Service s3Service;
+    private final S3Service s3Service;
 
     @Transactional
     public void joinUser(UserRequest.JoinDTO joinDTO) {
@@ -122,7 +123,8 @@ public class UserService {
 
     @Transactional
     public UserResponse.UserDetailDTO modifyUser(
-            Long id, UserRequest.ModifyDTO modifyDTO, MultipartFile image
+            Long id, UserRequest.ModifyDTO modifyDTO,
+            MultipartFile image
     ) throws IOException {
         User userPS = userRepository.findById(id).orElseThrow(
                 ()-> new RuntimeException("해당 유저를 찾을 수 없습니다")
@@ -162,10 +164,9 @@ public class UserService {
         }
 
         if (!modifyDTO.getImageUrl().isBlank()) {
-            imageUrl = modifyDTO.getImageUrl();
+            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
         }
-        // TODO : S3 image Url
-//         imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
+
 //
 
         userPS.update(modifyDTO.toEntity(email, newPassword, username, imageUrl));
