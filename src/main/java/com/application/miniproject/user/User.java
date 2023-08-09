@@ -30,6 +30,7 @@ public class User {
     @Column(nullable = false, length = 50)
     private String email;
 
+    @Column
     private String imageUrl;
 
     @Column(nullable = false)
