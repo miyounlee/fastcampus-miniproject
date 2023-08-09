@@ -164,7 +164,10 @@ public class UserService {
         }
 
         if (!modifyDTO.getImageUrl().isBlank()) {
-            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
+            imageUrl = modifyDTO.getImageUrl();
+            // TODO : S3 저장
+//            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
+
         }
 
         userPS.update(modifyDTO.toEntity(email, newPassword, username, imageUrl));
