@@ -55,8 +55,9 @@ public class UserController {
     @PutMapping("/myinfo")
     public ResponseEntity<?> updateMypage(
             @AuthenticationPrincipal MyUserDetails myUserDetails,
-            @Valid @RequestPart UserRequest.ModifyDTO modifyDTO,
-            @RequestPart MultipartFile image
+            @RequestPart @Valid UserRequest.ModifyDTO modifyDTO,
+            @RequestPart(required=false) MultipartFile image
+
     ) throws IOException
     {
         UserResponse.UserDetailDTO detailOutDTO = userService.modifyUser(myUserDetails.getUser().getId(), modifyDTO, image);
