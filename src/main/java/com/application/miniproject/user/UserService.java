@@ -164,7 +164,8 @@ public class UserService {
         }
 
         if (!modifyDTO.getImageUrl().isBlank()) {
-            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
+//            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
+            imageUrl = modifyDTO.getImageUrl();
         }
 
 //
