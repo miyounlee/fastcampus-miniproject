@@ -4,7 +4,6 @@ import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject.admin.dto.AdminResponse;
 import com.application.miniproject.admin.dto.AdminRequest;
 import com.application.miniproject.event.Event;
-import com.application.miniproject.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,15 +43,5 @@ public class AdminService {
     public void dutyApproval(AdminRequest.ApprovalDTO request) {
         Event event = adminRepository.findEventById(request.getEventId());
         event.setOrderState(request.getOrderState());
-    }
-
-    @Transactional
-    public List<User> getAllUsers() {
-        return adminRepository.findAllUsers();
-    }
-
-    @Transactional
-    public User getUserDetails(Long userId) {
-        return adminRepository.findUserById(userId);
     }
 }
