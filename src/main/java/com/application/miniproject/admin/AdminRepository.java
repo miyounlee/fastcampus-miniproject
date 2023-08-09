@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -15,7 +15,7 @@ public class AdminRepository {
     private final EntityManager entityManager;
 
     public List<Event> findAllEvents() {
-        Query query = entityManager.createQuery(
+        TypedQuery<Event> query = entityManager.createQuery(
                 "SELECT e FROM Event e", Event.class);
 
         return query.getResultList();
@@ -24,6 +24,4 @@ public class AdminRepository {
     public Event findEventById(Long id) {
         return entityManager.find(Event.class, id);
     }
-
-
 }
