@@ -2,7 +2,6 @@ package com.application.miniproject._core.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 

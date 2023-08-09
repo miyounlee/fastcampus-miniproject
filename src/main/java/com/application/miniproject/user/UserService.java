@@ -1,5 +1,6 @@
 package com.application.miniproject.user;
 
+import com.application.miniproject._core.error.exception.Exception400;
 import com.application.miniproject._core.error.exception.Exception404;
 import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject._core.security.JwtProvider;
@@ -8,7 +9,6 @@ import com.application.miniproject.user.dto.UserRequest;
 import com.application.miniproject.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -139,23 +136,23 @@ public class UserService {
         // 기존 비밀번호 입력받은 값 <==> DB 비밀번호 비교
         boolean passwordMatchesTonewPassword = bCryptPasswordEncoder.matches(modifyDTO.getCurrentPassword(), userPS.getPassword());
         if (!passwordMatchesTonewPassword) {
-            throw new RuntimeException("입력하신 비밀번호가 다릅니다.");
+            throw new Exception400("입력하신 비밀번호가 다릅니다.");
         }
 
         // 기존 비밀번호, 수정 페이저 기존 비밀번호 체크
         boolean passwordMatches = bCryptPasswordEncoder.matches(modifyDTO.getNewPassword(), userPS.getPassword());
         if (passwordMatches) {
-            throw new RuntimeException("기존 비밀번호와 다르게 입력해주세요.");
+            throw new Exception400("기존 비밀번호와 다르게 입력해주세요.");
         }
 
         // 새 비밀번호, 비밀번호 확인 비교 여부
         if (!modifyDTO.getNewPassword().equals(modifyDTO.getNewPasswordCheck())) {
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+            throw new Exception400("비밀번호가 일치하지 않습니다.");
         }
 
         // 새로운 비밀번호 값이 null이 아닐경우 로직 완성
         if (modifyDTO.getCurrentPassword().equals(null) ||modifyDTO.getNewPasswordCheck().equals(null) || modifyDTO.getNewPasswordCheck().equals(null)) {
-            throw new RuntimeException("비밀번호를 입력해주세요.");
+            throw new Exception400("비밀번호를 입력해주세요.");
         }
 
         newPassword = bCryptPasswordEncoder.encode(modifyDTO.getNewPassword());
@@ -164,12 +161,12 @@ public class UserService {
             username = modifyDTO.getUsername();
         }
 
-//        if (image == null) {
-//            imageUrl = userPS.getImageUrl();
-//        } else {
+        if (!modifyDTO.getImageUrl().isBlank()) {
+            imageUrl = modifyDTO.getImageUrl();
+        }
         // TODO : S3 image Url
-//            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
-//        }
+//         imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
+//
 
         userPS.update(modifyDTO.toEntity(email, newPassword, username, imageUrl));
         return UserResponse.UserDetailDTO.builder()

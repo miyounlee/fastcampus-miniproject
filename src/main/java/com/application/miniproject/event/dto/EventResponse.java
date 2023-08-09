@@ -4,7 +4,6 @@ import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject.event.Event;
 import com.application.miniproject.event.type.EventType;
 import com.application.miniproject.event.type.OrderState;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 

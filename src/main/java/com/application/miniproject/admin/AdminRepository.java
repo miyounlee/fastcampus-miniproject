@@ -2,7 +2,6 @@ package com.application.miniproject.admin;
 
 import com.application.miniproject.event.Event;
 import com.application.miniproject.user.User;
-import com.application.miniproject.event.type.EventType;
 import com.application.miniproject.event.type.OrderState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

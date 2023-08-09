@@ -8,11 +8,16 @@ import org.springframework.http.HttpStatus;
 public class Exception400 extends RuntimeException {
     private String key;
     private String value;
+    private String message;
 
     public Exception400(String key, String value) {
         super(key+" : "+value);
         this.key = key;
         this.value = value;
+    }
+
+    public Exception400(String message) {
+        super(message);
     }
 
     public ApiUtils.ApiResult<?> body(){

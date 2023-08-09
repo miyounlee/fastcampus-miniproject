@@ -1,6 +1,6 @@
 package com.application.miniproject.user;
 
-import com.application.miniproject._core.util.type.UserType;
+import com.application.miniproject.user.type.UserType;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 

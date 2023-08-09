@@ -61,7 +61,7 @@ public class UserController {
     {
         UserResponse.UserDetailDTO detailOutDTO = userService.modifyUser(myUserDetails.getUser().getId(), modifyDTO, image);
         ApiUtils<?> responseDTO = new ApiUtils<>(detailOutDTO);
-        System.out.println(modifyDTO.toString());
+
         return ResponseEntity.ok().body(responseDTO);
     }
 }

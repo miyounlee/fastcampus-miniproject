@@ -1,7 +1,5 @@
 package com.application.miniproject.user.dto;
 
-import com.application.miniproject._core.util.type.UserType;
-import com.application.miniproject.user.User;
 import lombok.Builder;
 import lombok.Getter;
 

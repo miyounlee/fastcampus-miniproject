@@ -2,7 +2,6 @@ package com.application.miniproject.event.dto;
 
 import com.application.miniproject.event.Event;
 import com.application.miniproject.event.type.EventType;
-import com.application.miniproject.event.type.OrderState;
 import com.application.miniproject.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

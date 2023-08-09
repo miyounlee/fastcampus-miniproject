@@ -1,7 +1,6 @@
 package com.application.miniproject.user;
 
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
