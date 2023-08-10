@@ -58,11 +58,13 @@ public class AdminService {
         Event event = adminRepository.findEventById(request.getEventId());
 
         return AdminResponse.DutyApprovalDTO.builder()
+                .userId(event.getUser().getId())
                 .userName(aes256.decrypt(event.getUser().getUsername()))
                 .userEmail(aes256.decrypt(event.getUser().getEmail()))
                 .eventType(event.getEventType().toString())
                 .eventId(event.getId())
-                .startedDate(event.getStartDate())
+                .startDate(event.getStartDate())
+                .endDate(event.getEndDate())
                 .orderState(event.getOrderState().toString())
                 .build();
     }
