@@ -18,7 +18,7 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final Aes256 aes256;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<AdminResponse.EventRequestListDTO> getEventRequestList() {
         List<Event> events = adminRepository.findAllEvents();
 
@@ -50,7 +50,6 @@ public class AdminService {
                 .userId(event.getUser().getId())
                 .userName(aes256.decrypt(event.getUser().getUsername()))
                 .userEmail(aes256.decrypt(event.getUser().getEmail()))
-                .annualCount(event.getUser().getAnnualCount())
                 .eventType(event.getEventType().toString())
                 .eventId(event.getId())
                 .startDate(event.getStartDate())
@@ -68,7 +67,6 @@ public class AdminService {
                 .userId(event.getUser().getId())
                 .userName(aes256.decrypt(event.getUser().getUsername()))
                 .userEmail(aes256.decrypt(event.getUser().getEmail()))
-                .annualCount(event.getUser().getAnnualCount())
                 .eventType(event.getEventType().toString())
                 .eventId(event.getId())
                 .startDate(event.getStartDate())
