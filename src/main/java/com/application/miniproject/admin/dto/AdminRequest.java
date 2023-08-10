@@ -15,5 +15,6 @@ public class AdminRequest {
     public static class ApprovalDTO {
         private final Long eventId;
         private final OrderState orderState;
+        private final String approvalType;
     }
 }
