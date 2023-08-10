@@ -9,6 +9,7 @@ import com.application.miniproject.user.dto.UserRequest;
 import com.application.miniproject.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,8 @@ public class UserService {
     private final JwtProvider jwtProvider;
     private final Aes256 aes256;
     private final S3Service s3Service;
+    @Value("${default.path}")
+    private String defaultImagePath;
 
     @Transactional
     public void joinUser(UserRequest.JoinDTO joinDTO) {
@@ -41,7 +44,7 @@ public class UserService {
             throw new Exception404("잘못된 요청입니다.");
         }
         String password = bCryptPasswordEncoder.encode(joinDTO.getPassword());
-        userRepository.save(joinDTO.toCipherEntity(password, aes256));
+        userRepository.save(joinDTO.toCipherEntity(password, aes256, defaultImagePath));
     }
 
     @Transactional
