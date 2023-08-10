@@ -50,11 +50,13 @@ public class AdminResponse {
     @Getter
     @Builder
     public static class DutyApprovalDTO {
+        private final Long userId;
         private final String userName;
         private final String userEmail;
         private final String eventType;
         private final Long eventId;
-        private final LocalDate startedDate;
+        private final LocalDate startDate;
+        private final LocalDate endDate;
         private final String orderState;
     }
 }
