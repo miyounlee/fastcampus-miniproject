@@ -28,11 +28,12 @@ public class UserRequest {
                 message = "최소 하나의 알파벳, 하나의 숫자, 하나의 특수 문자를 포함해야 합니다.")
         private String password;
 
-        public User toCipherEntity(String password, Aes256 aes256) {
+        public User toCipherEntity(String password, Aes256 aes256, String path) {
             return User.builder()
                     .username(aes256.encrypt(username))
                     .email(aes256.encrypt(email))
                     .password(password)
+                    .imageUrl(path)
                     .role(UserType.ROLE_USER)
                     .annualCount(15)
                     .createdAt(Timestamp.valueOf(LocalDateTime.now()))
