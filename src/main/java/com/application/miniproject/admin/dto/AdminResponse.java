@@ -24,15 +24,26 @@ public class AdminResponse {
         private final LocalDate endDate;
         private final String orderState;
 
-        public EventRequestListDTO(Event event) {
-            this.eventId = event.getId();
-            this.userId = event.getUser().getId();
-            this.userName = event.getUser().getUsername();
-            this.userEmail = event.getUser().getEmail();
-            this.eventType = event.getEventType().toString();
-            this.startDate = event.getStartDate();
-            this.endDate = event.getEndDate();
-            this.orderState = event.getOrderState().toString();
+        public static EventRequestListDTO fromEvent(Event event) {
+            return EventRequestListDTO.builder()
+                    .eventId(event.getId())
+                    .userId(event.getUser().getId())
+                    .userName(event.getUser().getUsername())
+                    .userEmail(event.getUser().getEmail())
+                    .eventType(event.getEventType().toString())
+                    .startDate(event.getStartDate())
+                    .endDate(event.getEndDate())
+                    .orderState(event.getOrderState().toString())
+                    .build();
         }
+    }
+    @Getter
+    @Builder
+    public static class ApprovalResultDTO {
+        private final Long eventId;
+        private final String userName;
+        private final String userEmail;
+        private final String eventType;
+        private final String orderState;
     }
 }

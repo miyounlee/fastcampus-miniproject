@@ -22,13 +22,13 @@ public class AdminController {
 
     @PostMapping("/leave/approval")
     public ResponseEntity<String> leaveApproval(@RequestBody AdminRequest.ApprovalDTO request) {
-        adminService.leaveApproval(request);
+        adminService.approve(request);
         return ResponseEntity.ok().body("Leave has been updated to " + request.getOrderState());
     }
 
     @PostMapping("/duty/approval")
     public ResponseEntity<String> dutyApproval(@RequestBody AdminRequest.ApprovalDTO request) {
-        adminService.dutyApproval(request);
+        adminService.approve(request);
         return ResponseEntity.ok().body("Duty has been updated to " + request.getOrderState());
     }
 }
