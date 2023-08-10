@@ -45,6 +45,7 @@ public class AdminResponse {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String orderState;
+        private final int annualCount;
     }
 
     @Getter
@@ -58,5 +59,6 @@ public class AdminResponse {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String orderState;
+        private final int annualCount;
     }
 }
