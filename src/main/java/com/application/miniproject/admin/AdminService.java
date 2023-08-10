@@ -26,6 +26,7 @@ public class AdminService {
                     return AdminResponse.EventRequestListDTO.builder()
                             .eventId(event.getId())
                             .userId(event.getUser().getId())
+                            .annualCount(event.getUser().getAnnualCount())
                             .userName(decryptedUsername)
                             .userEmail(decryptedEmail)
                             .eventType(event.getEventType().toString())
