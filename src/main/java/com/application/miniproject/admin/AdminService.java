@@ -6,6 +6,7 @@ import com.application.miniproject.admin.dto.AdminRequest;
 import com.application.miniproject.event.Event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +39,7 @@ public class AdminService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public AdminResponse.LeaveApprovalDTO approveLeave(AdminRequest.ApprovalDTO request) {
         adminRepository.findEventById(request.getEventId()).setOrderState(request.getOrderState());
         Event event = adminRepository.findEventById(request.getEventId());
@@ -55,6 +57,7 @@ public class AdminService {
                 .build();
     }
 
+    @Transactional
     public AdminResponse.DutyApprovalDTO approveDuty(AdminRequest.ApprovalDTO request) {
         adminRepository.findEventById(request.getEventId()).setOrderState(request.getOrderState());
         Event event = adminRepository.findEventById(request.getEventId());

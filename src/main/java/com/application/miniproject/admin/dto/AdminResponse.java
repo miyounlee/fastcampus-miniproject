@@ -33,6 +33,7 @@ public class AdminResponse {
         private final String userEmail;
         private final String eventType;
         private final String orderState;
+        private final int annualCount;
     }
 
     @Getter
