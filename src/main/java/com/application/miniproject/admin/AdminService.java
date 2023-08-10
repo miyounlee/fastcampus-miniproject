@@ -17,6 +17,8 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
     private final Aes256 aes256;
+
+    @Transactional
     public List<AdminResponse.EventRequestListDTO> getEventRequestList() {
         List<Event> events = adminRepository.findAllEvents();
 
