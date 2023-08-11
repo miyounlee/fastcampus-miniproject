@@ -38,6 +38,5 @@ public class UserResponse {
     @Builder
     public static class authUserDTO {
         private Long userId;
-        private String accessToken;
     }
 }
