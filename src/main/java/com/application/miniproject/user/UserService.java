@@ -5,7 +5,6 @@ import com.application.miniproject._core.error.exception.Exception404;
 import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject._core.security.JwtProvider;
 //import com.application.miniproject._core.util.S3Service;
-import com.application.miniproject._core.util.S3Service;
 import com.application.miniproject.user.dto.UserRequest;
 import com.application.miniproject.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class UserService {
     private final UserHistoryRepository userHistoryRepository;
     private final JwtProvider jwtProvider;
     private final Aes256 aes256;
-    private final S3Service s3Service;
+//    private final S3Service s3Service;
     @Value("${default.path}")
     private String defaultImagePath;
 
@@ -167,9 +166,9 @@ public class UserService {
         }
 
         if (!modifyDTO.getImageUrl().isBlank()) {
-            imageUrl = modifyDTO.getImageUrl();
+//            imageUrl = modifyDTO.getImageUrl();
             // TODO : S3 저장
-//            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
+            imageUrl = s3Service.updateImage(userPS.getImageUrl(), image);
 
         }
 
