@@ -6,6 +6,7 @@ import com.application.miniproject.admin.dto.AdminRequest;
 import com.application.miniproject.event.Event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,8 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
     private final Aes256 aes256;
+
+    @Transactional(readOnly = true)
     public List<AdminResponse.EventRequestListDTO> getEventRequestList() {
         List<Event> events = adminRepository.findAllEvents();
 
@@ -38,6 +41,7 @@ public class AdminService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public AdminResponse.LeaveApprovalDTO approveLeave(AdminRequest.ApprovalDTO request) {
         adminRepository.findEventById(request.getEventId()).setOrderState(request.getOrderState());
         Event event = adminRepository.findEventById(request.getEventId());
@@ -46,7 +50,6 @@ public class AdminService {
                 .userId(event.getUser().getId())
                 .userName(aes256.decrypt(event.getUser().getUsername()))
                 .userEmail(aes256.decrypt(event.getUser().getEmail()))
-                .annualCount(event.getUser().getAnnualCount())
                 .eventType(event.getEventType().toString())
                 .eventId(event.getId())
                 .startDate(event.getStartDate())
@@ -55,6 +58,7 @@ public class AdminService {
                 .build();
     }
 
+    @Transactional
     public AdminResponse.DutyApprovalDTO approveDuty(AdminRequest.ApprovalDTO request) {
         adminRepository.findEventById(request.getEventId()).setOrderState(request.getOrderState());
         Event event = adminRepository.findEventById(request.getEventId());
@@ -63,7 +67,6 @@ public class AdminService {
                 .userId(event.getUser().getId())
                 .userName(aes256.decrypt(event.getUser().getUsername()))
                 .userEmail(aes256.decrypt(event.getUser().getEmail()))
-                .annualCount(event.getUser().getAnnualCount())
                 .eventType(event.getEventType().toString())
                 .eventId(event.getId())
                 .startDate(event.getStartDate())

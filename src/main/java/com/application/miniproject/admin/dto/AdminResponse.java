@@ -27,16 +27,6 @@ public class AdminResponse {
 
     @Getter
     @Builder
-    public static class ApprovalResultDTO {
-        private final Long eventId;
-        private final String userName;
-        private final String userEmail;
-        private final String eventType;
-        private final String orderState;
-    }
-
-    @Getter
-    @Builder
     public static class LeaveApprovalDTO {
         private final Long userId;
         private final String userName;
@@ -46,7 +36,6 @@ public class AdminResponse {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String orderState;
-        private final int annualCount;
     }
 
     @Getter
@@ -60,6 +49,5 @@ public class AdminResponse {
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String orderState;
-        private final int annualCount;
     }
 }
