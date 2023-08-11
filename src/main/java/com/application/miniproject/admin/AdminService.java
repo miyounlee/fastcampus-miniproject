@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
@@ -43,8 +44,16 @@ public class AdminService {
 
     @Transactional
     public AdminResponse.LeaveApprovalDTO approveLeave(AdminRequest.ApprovalDTO request) {
-        adminRepository.findEventById(request.getEventId()).setOrderState(request.getOrderState());
         Event event = adminRepository.findEventById(request.getEventId());
+        long leaveDays = Duration.between(event.getStartDate().atStartOfDay(), event.getEndDate().atStartOfDay()).toDays() + 1;
+        int updatedAnnualCount = event.getUser().getAnnualCount() - (int) leaveDays;
+
+        if (updatedAnnualCount < 0) {
+            throw new RuntimeException("연차가 부족하네요.");
+        }
+
+        event.getUser().setAnnualCount(updatedAnnualCount);
+        event.setOrderState(request.getOrderState());
 
         return AdminResponse.LeaveApprovalDTO.builder()
                 .userId(event.getUser().getId())
