@@ -64,4 +64,12 @@ public class UserController {
 
         return ResponseEntity.ok().body(responseDTO);
     }
+
+    @GetMapping("/auth")
+    public ResponseEntity<?> authUser(@AuthenticationPrincipal MyUserDetails myUserDetails) {
+        UserResponse.authUserDTO authUserDTO = userService.authUser(myUserDetails.getUser().getId());
+        ApiUtils<?> responseDTO = new ApiUtils<>(authUserDTO);
+
+        return ResponseEntity.ok().body(responseDTO);
+    }
 }

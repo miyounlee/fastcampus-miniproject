@@ -182,4 +182,14 @@ public class UserService {
                 .updatedAt(userPS.getUpdatedAt())
                 .build();
     }
+
+    @Transactional(readOnly = true)
+    public UserResponse.authUserDTO authUser(Long id) {
+        User userPS = userRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("해당 유저를 찾을 수 없습니다")
+        );
+        return UserResponse.authUserDTO.builder()
+                .userId(userPS.getId())
+                .build();
+    }
 }
