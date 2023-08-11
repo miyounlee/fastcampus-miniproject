@@ -4,6 +4,7 @@ import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject.admin.dto.AdminResponse;
 import com.application.miniproject.admin.dto.AdminRequest;
 import com.application.miniproject.event.Event;
+import com.application.miniproject.event.type.OrderState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,13 +47,16 @@ public class AdminService {
     public AdminResponse.LeaveApprovalDTO approveLeave(AdminRequest.ApprovalDTO request) {
         Event event = adminRepository.findEventById(request.getEventId());
         long leaveDays = Duration.between(event.getStartDate().atStartOfDay(), event.getEndDate().atStartOfDay()).toDays() + 1;
-        int updatedAnnualCount = event.getUser().getAnnualCount() - (int) leaveDays;
 
-        if (updatedAnnualCount < 0) {
-            throw new RuntimeException("연차가 부족하네요.");
+        if (request.getOrderState() == OrderState.APPROVED) {
+            int updatedAnnualCount = event.getUser().getAnnualCount() - (int) leaveDays;
+
+            if (updatedAnnualCount < 0) {
+                throw new RuntimeException("연차가 부족하네요.");
+            }
+
+            event.getUser().setAnnualCount(updatedAnnualCount);
         }
-
-        event.getUser().setAnnualCount(updatedAnnualCount);
         event.setOrderState(request.getOrderState());
 
         return AdminResponse.LeaveApprovalDTO.builder()
@@ -66,6 +70,7 @@ public class AdminService {
                 .orderState(event.getOrderState().toString())
                 .build();
     }
+
 
     @Transactional
     public AdminResponse.DutyApprovalDTO approveDuty(AdminRequest.ApprovalDTO request) {
