@@ -4,7 +4,7 @@ import com.application.miniproject._core.error.exception.Exception400;
 import com.application.miniproject._core.error.exception.Exception404;
 import com.application.miniproject._core.security.Aes256;
 import com.application.miniproject._core.security.JwtProvider;
-import com.application.miniproject._core.util.S3Service;
+//import com.application.miniproject._core.util.S3Service;
 import com.application.miniproject.user.dto.UserRequest;
 import com.application.miniproject.user.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -34,7 +33,7 @@ public class UserService {
     private final UserHistoryRepository userHistoryRepository;
     private final JwtProvider jwtProvider;
     private final Aes256 aes256;
-    private final S3Service s3Service;
+//    private final S3Service s3Service;
     @Value("${default.path}")
     private String defaultImagePath;
 
