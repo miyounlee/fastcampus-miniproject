@@ -38,19 +38,41 @@ public class EventService {
         LocalDate startDate = addReqDTO.getStartDate();
         LocalDate endDate = addReqDTO.getEndDate();
         EventType eventType = addReqDTO.getEventType();
+        Long userId = user.getId();
 
         if (eventType == EventType.LEAVE && addReqDTO.getCount() > user.getAnnualCount()) {
             throw new Exception500("사용가능한 연차가 부족합니다.");
         }
 
         if (eventType == EventType.DUTY) {
-            eventRepository.findByDutyDate(startDate).ifPresent(event -> {
-                throw new Exception500("해당 일자에 승인된 당직신청 내역이 존재합니다.");
-            });
+            dutyDuplicateCheck(userId, startDate);
         }
 
-        if (!eventRepository.findDuplicatedEvent(user, startDate, endDate).isEmpty()) {
-            throw new Exception500("해당 일자에 연차/당직 신청내역이 존재합니다. 취소 후 다시 신청해 주세요.");
+        if (addReqDTO.getCount() == 1) {
+            singleLeaveDuplicateCheck(userId, startDate);
+        } else {
+            leaveDuplicateCheck(userId, startDate, endDate);
+        }
+    }
+
+    private void dutyDuplicateCheck(Long userId, LocalDate startDate) {
+        eventRepository.findByDutyDate(startDate).ifPresent(event -> {
+            throw new Exception500("해당 일자에 승인된 당직신청 내역이 존재합니다.");
+        });
+        eventRepository.findByMyDutyDate(userId, startDate).ifPresent(event -> {
+            throw new Exception500("해당 일자에 신청내역이 존재합니다. 확인 후 다시 신청해 주세요.");
+        });
+    }
+
+    private void singleLeaveDuplicateCheck(Long userId, LocalDate startDate) {
+        eventRepository.findByLeaveDate(userId, startDate).ifPresent(event -> {
+            throw new Exception500("해당 일자에 신청내역이 존재합니다. 확인 후 다시 신청해 주세요.");
+        });
+    }
+
+    private void leaveDuplicateCheck(Long userId, LocalDate startDate, LocalDate endDate) {
+        if (!eventRepository.findByLeaveDates(userId, startDate, endDate).isEmpty()) {
+            throw new Exception500("해당 일자에 신청내역이 존재합니다. 확인 후 다시 신청해 주세요.");
         }
     }
 

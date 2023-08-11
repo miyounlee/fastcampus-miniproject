@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +18,7 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final Aes256 aes256;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<AdminResponse.EventRequestListDTO> getEventRequestList() {
         List<Event> events = adminRepository.findAllEvents();
 
@@ -30,6 +29,7 @@ public class AdminService {
                     return AdminResponse.EventRequestListDTO.builder()
                             .eventId(event.getId())
                             .userId(event.getUser().getId())
+                            .annualCount(event.getUser().getAnnualCount())
                             .userName(decryptedUsername)
                             .userEmail(decryptedEmail)
                             .eventType(event.getEventType().toString())
@@ -42,24 +42,35 @@ public class AdminService {
     }
 
     @Transactional
-    public AdminResponse.ApprovalResultDTO approve(AdminRequest.ApprovalDTO request) {
+    public AdminResponse.LeaveApprovalDTO approveLeave(AdminRequest.ApprovalDTO request) {
+        adminRepository.findEventById(request.getEventId()).setOrderState(request.getOrderState());
         Event event = adminRepository.findEventById(request.getEventId());
 
-        if(event == null) {
-            throw new EntityNotFoundException(request.getEventId() + " not found");
-        }
-
-        event.setOrderState(request.getOrderState());
-
-        if(!"LEAVE".equals(request.getApprovalType()) && !"DUTY".equals(request.getApprovalType())) {
-            throw new IllegalArgumentException("잘못된 승인 형태입니다.");
-        }
-
-        return AdminResponse.ApprovalResultDTO.builder()
-                .eventId(event.getId())
+        return AdminResponse.LeaveApprovalDTO.builder()
+                .userId(event.getUser().getId())
                 .userName(aes256.decrypt(event.getUser().getUsername()))
                 .userEmail(aes256.decrypt(event.getUser().getEmail()))
                 .eventType(event.getEventType().toString())
+                .eventId(event.getId())
+                .startDate(event.getStartDate())
+                .endDate(event.getEndDate())
+                .orderState(event.getOrderState().toString())
+                .build();
+    }
+
+    @Transactional
+    public AdminResponse.DutyApprovalDTO approveDuty(AdminRequest.ApprovalDTO request) {
+        adminRepository.findEventById(request.getEventId()).setOrderState(request.getOrderState());
+        Event event = adminRepository.findEventById(request.getEventId());
+
+        return AdminResponse.DutyApprovalDTO.builder()
+                .userId(event.getUser().getId())
+                .userName(aes256.decrypt(event.getUser().getUsername()))
+                .userEmail(aes256.decrypt(event.getUser().getEmail()))
+                .eventType(event.getEventType().toString())
+                .eventId(event.getId())
+                .startDate(event.getStartDate())
+                .endDate(event.getEndDate())
                 .orderState(event.getOrderState().toString())
                 .build();
     }
