@@ -33,4 +33,11 @@ public class UserResponse {
         private Timestamp updatedAt;
         private int annualCount;
     }
+
+    @Getter
+    @Builder
+    public static class authUserDTO {
+        private Long userId;
+        private String accessToken;
+    }
 }
