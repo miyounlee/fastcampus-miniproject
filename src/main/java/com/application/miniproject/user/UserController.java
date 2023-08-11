@@ -55,8 +55,8 @@ public class UserController {
     @PutMapping("/myinfo")
     public ResponseEntity<?> updateMypage(
             @AuthenticationPrincipal MyUserDetails myUserDetails,
-            @Valid @RequestBody UserRequest.ModifyDTO modifyDTO,
-            MultipartFile image
+            @Valid @RequestPart UserRequest.ModifyDTO modifyDTO,
+            @RequestPart MultipartFile image
 
     ) throws IOException
     {

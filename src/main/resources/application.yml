@@ -11,6 +11,18 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+cloud:
+  aws:
+    credentials:
+      accessKey:
+      secretKey:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 
+application:
+  bucket:
+    name:
 jwt:
   key: 
