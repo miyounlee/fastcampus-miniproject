@@ -6,13 +6,12 @@
 
 # 오늘은 내 차례! (My Turn) [🔗](https://my-turn.netlify.app)
 
-### 사유는 필요없다! 당당히 손들고 오늘은 내 차례라고 말할 수 있는 연차 & 당직 관리 프로그램 
+사유는 필요없다! 당당히 손들고 오늘은 내 차례라고 말할 수 있는 연차 & 당직 관리 프로그램 
 
 <br>
 
 </div>
 
----
 <br>
 
 ## 🧑🏻‍💻 백엔드 팀원 역할
@@ -41,7 +40,7 @@
           회원가입,<br />로그인,<br />JWT
         </td>
         <td>
-          연차 / 당직 신청,<br />연차 / 당직 취소,<br />서버 배포
+          연차 / 당직 신청 및 취소,<br />연차 / 당직 조회,<br />서버 배포
         </td>
         <td>
           관리자 연차 / 당직 승인,<br />관리자 연차 / 당직 조회
@@ -53,7 +52,7 @@
 
 ## 💡 프로그램 소개
 ### 사용자
-- 메인캘린더 (모든 사원의 연차 & 당직 정보 조회)
+- 메인캘린더 (모든 사원 혹은 개인 연차 & 당직 정보 조회)
 - 회원가입
   - 이름, 이메일, 비밀번호 입력 후 가입
 - 연차 & 당직 신청 및 취소
@@ -61,6 +60,7 @@
   - 이름, 비밀번호 수정 가능
 
 ### 관리자
+- 모든 사원의 연차 & 당직 신청 정보 조회
 - 신청된 연차 & 당직 승인 및 반려 결정
 
 <br><br>
@@ -87,13 +87,12 @@
 <br><br>
 
 ## 🛠️ 프로젝트에 사용한 기술 스택
-<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> 
-<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white"> 
-<img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
-<img src="https://img.shields.io/badge/Java 11-FF160B?style=for-the-badge&logo=java&logoColor=white"> 
-<img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> 
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-<img src="https://img.shields.io/badge/Amazon AWS-41454A?style=for-the-badge&logo=amazonaws&logoColor=white">
+<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-squre&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-squre&logo=springsecurity&logoColor=white"> 
+<img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=flat-squre&logo=spring&logoColor=white"> 
+
+<img src="https://img.shields.io/badge/Java 11-FF160B?style=flat-squre&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/Gradle-02303A?style=flat-squre&logo=gradle&logoColor=white"> 
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-squre&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/Amazon AWS-41454A?style=flat-squre&logo=amazonaws&logoColor=white">
 
 <br><br>
 
