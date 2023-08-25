@@ -70,6 +70,10 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-jar {
-    enabled = true
+bootJar {
+    mainClassName = 'com.application.miniproject'
 }
+
+jar {
+    enabled = false
+} 
