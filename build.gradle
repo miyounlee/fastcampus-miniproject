@@ -32,7 +32,7 @@ azurewebapp {
     runtime {
         os = 'Windows' 
         webContainer = 'Tomcat 9.0'
-        javaVersion = 'Java 17'
+        javaVersion = 'Java 11'
     }
 }
 
