@@ -37,4 +37,4 @@ jobs:
         app-name: 'today-is-myturn'
         slot-name: 'Production'
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A76A8087663140EEA366F1FD0A8FC08E }}
-        package: './build/libs/*.war'
+        package: '.\\build\\libs\\*.war'
