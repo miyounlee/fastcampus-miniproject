@@ -26,4 +26,4 @@ logging:
 default:
   path: /src/assets/profile/0.png
 jwt:
-  key: ${JWT_SECRET_KEY}
+  key: ${jwt_secret_key}
