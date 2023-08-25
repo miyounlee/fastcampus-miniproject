@@ -10,7 +10,7 @@ group = 'com.application'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '11'
+    sourceCompatibility = '17'
 }
 
 configurations {
@@ -32,7 +32,7 @@ azurewebapp {
     runtime {
         os = 'Windows' 
         webContainer = 'Tomcat 9.0'
-        javaVersion = 'Java 11'
+        javaVersion = 'Java 17'
     }
 }
 
