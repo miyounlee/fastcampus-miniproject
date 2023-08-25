@@ -23,5 +23,5 @@ jobs:
 
       - name: Build with Gradle
         env:
-          jwt_secret_key: ${{ secrets.JWT_SECRET_KEY ))
+          jwt_secret_key: ${{ secrets.JWT_SECRET_KEY }}
         run: ./gradlew clean build
