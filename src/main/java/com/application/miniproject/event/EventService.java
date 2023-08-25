@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -35,58 +35,36 @@ public class EventService {
 
     private void validateAddEventInfo(EventRequest.AddDTO addReqDTO, User user) {
 
-        LocalDate startDate = addReqDTO.getStartDate();
-        LocalDate endDate = addReqDTO.getEndDate();
-        EventType eventType = addReqDTO.getEventType();
-        Long userId = user.getId();
-
-        if (eventType == EventType.LEAVE && addReqDTO.getCount() > user.getAnnualCount()) {
+        if (addReqDTO.getEventType() == EventType.LEAVE && addReqDTO.getCount() > user.getAnnualCount()) {
             throw new Exception500("사용가능한 연차가 부족합니다.");
         }
 
-        if (eventType == EventType.DUTY) {
-            dutyDuplicateCheck(userId, startDate);
+        if (addReqDTO.getEventType() == EventType.DUTY) {
+            eventRepository.findByEventTypeAndStartDateAndOrderState(EventType.DUTY, addReqDTO.getStartDate(), OrderState.APPROVED).ifPresent(event -> {
+                throw new Exception500("해당 일자에 승인된 당직신청 내역이 존재합니다.");
+            });
         }
 
-        if (addReqDTO.getCount() == 1) {
-            singleLeaveDuplicateCheck(userId, startDate);
-        } else {
-            leaveDuplicateCheck(userId, startDate, endDate);
-        }
-    }
-
-    private void dutyDuplicateCheck(Long userId, LocalDate startDate) {
-        eventRepository.findByDutyDate(startDate).ifPresent(event -> {
-            throw new Exception500("해당 일자에 승인된 당직신청 내역이 존재합니다.");
-        });
-        eventRepository.findByMyDutyDate(userId, startDate).ifPresent(event -> {
-            throw new Exception500("해당 일자에 신청내역이 존재합니다. 확인 후 다시 신청해 주세요.");
-        });
-    }
-
-    private void singleLeaveDuplicateCheck(Long userId, LocalDate startDate) {
-        eventRepository.findByLeaveDate(userId, startDate).ifPresent(event -> {
-            throw new Exception500("해당 일자에 신청내역이 존재합니다. 확인 후 다시 신청해 주세요.");
-        });
-    }
-
-    private void leaveDuplicateCheck(Long userId, LocalDate startDate, LocalDate endDate) {
-        if (!eventRepository.findByLeaveDates(userId, startDate, endDate).isEmpty()) {
+        if (!eventRepository.findEvent(user.getId(), addReqDTO.getStartDate(), addReqDTO.getEndDate()).isEmpty()) {
             throw new Exception500("해당 일자에 신청내역이 존재합니다. 확인 후 다시 신청해 주세요.");
         }
     }
 
     @Transactional
-    public void cancel(Long id) {
+    public void cancel(Long eventId, Long userId) {
 
-        Event event = eventRepository.findById(id)
+        Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new Exception500("존재하지 않는 이벤트로 삭제가 불가합니다."));
+
+        if (!Objects.equals(event.getUser().getId(), userId)) {
+            throw new Exception500("본인의 연차/당직만 취소가 가능합니다.");
+        }
 
         if (event.getOrderState() != OrderState.WAITING) {
             throw new Exception500("이미 승인되어 취소가 불가합니다.");
         }
 
-        eventRepository.deleteById(id);
+        eventRepository.deleteById(eventId);
     }
 
     @Transactional(readOnly = true)
@@ -94,7 +72,9 @@ public class EventService {
 
         List<Event> eventList = eventRepository.findAllByUserId(userId);
 
-        return eventList.stream().map(event -> EventResponse.ListDTO.from(event, aes256)).collect(Collectors.toList());
+        return eventList.stream()
+                .map(event -> EventResponse.ListDTO.from(event, aes256))
+                .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -102,7 +82,9 @@ public class EventService {
 
         List<Event> eventList = eventRepository.findAll();
 
-        return eventList.stream().map(event -> EventResponse.ListDTO.from(event, aes256)).collect(Collectors.toList());
+        return eventList.stream()
+                .map(event -> EventResponse.ListDTO.from(event, aes256))
+                .collect(Collectors.toList());
     }
 
 }
