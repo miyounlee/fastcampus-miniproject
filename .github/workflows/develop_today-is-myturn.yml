@@ -7,51 +7,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: windows-latest
     timeout-minutes: 10
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v1
-        with:
-          java-version: '17'
-
-      - name: Set YML
-        run: |
-          $decoded = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("${{ secrets.APPLICATION_YML }}"))
-          Set-Content -Path src/main/resources/application.yml -Value $decoded
-        shell: pwsh
-
-      - name: Build with Gradle
-        run: ./gradlew build
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: java-app
-          path: '${{ github.workspace }}/build/libs/*.jar'
-
-  deploy:
-    runs-on: windows-latest
-    needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: java-app
+    - uses: actions/checkout@v2
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'today-is-myturn'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A76A8087663140EEA366F1FD0A8FC08E }}
-          package: '*.jar'
+    - name: Set up JDK 17
+      uses: actions/setup-java@v1
+      with:
+        java-version: '17'
+
+    - name: Set YML
+      run: |
+        $decoded = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("${{ secrets.APPLICATION_YML }}"))
+        Set-Content -Path src/main/resources/application.yml -Value $decoded
+      shell: pwsh
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'today-is-myturn'
+        slot-name: 'Production'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A76A8087663140EEA366F1FD0A8FC08E }}
+        package: './build/libs/*.jar'
