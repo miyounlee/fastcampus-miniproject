@@ -21,7 +21,9 @@ jobs:
 
       - name: Set YML
         run: |
-          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+          $decoded = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("${{ secrets.APPLICATION_YML }}"))
+          Set-Content -Path src/main/resources/application.yml -Value $decoded
+        shell: pwsh
 
       - name: Build with Gradle
         run: ./gradlew build
