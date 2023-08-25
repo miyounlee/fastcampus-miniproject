@@ -21,11 +21,8 @@ jobs:
 
       - name: Set YML
         run: |
-          if (-not (Test-Path -Path src/main/resources -PathType Container)) {
-            New-Item -Path src/main/resources -ItemType Directory
-          }
+          mkdir src/main/resources
           echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
-        shell: pwsh
 
       - name: Build with Gradle
         run: ./gradlew build
