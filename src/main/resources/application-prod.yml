@@ -1,0 +1,29 @@
+server:
+  port: 5000
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+spring:
+  datasource:
+    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.db.name}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${rds.username}
+    password: ${rds.password}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    properties:
+      default_batch_fetch_size: 100
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+    open-in-view: false
+logging:
+  level:
+    '[com.application.miniproject]': INFO
+default:
+  path: /src/assets/profile/0.png
+jwt:
+  key: ${JWT_SECRET_KEY}
