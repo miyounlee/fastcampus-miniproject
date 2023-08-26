@@ -55,4 +55,9 @@ public class EventController {
 
         return ResponseEntity.ok(new ApiUtils<>(listDTOS));
     }
+
+    @GetMapping("/healthCheck")
+    public ResponseEntity<?> healthCheck() {
+        return ResponseEntity.ok(new ApiUtils<>());
+    }
 }
