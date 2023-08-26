@@ -14,13 +14,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RequestMapping("/user/event")
+//@RequestMapping("/user/event")
 @RestController
 public class EventController {
 
     private final EventService eventService;
 
-    @PostMapping("/add")
+    @PostMapping("/user/event/add")
     public ResponseEntity<?> addEvent(@RequestBody @Valid EventRequest.AddDTO addReqDTO,
                                       @AuthenticationPrincipal MyUserDetails myUserDetails) {
 
@@ -30,7 +30,7 @@ public class EventController {
         return ResponseEntity.ok(new ApiUtils<>(addRespDTO));
     }
 
-    @PostMapping("/cancel/{id}")
+    @PostMapping("/user/event/cancel/{id}")
     public ResponseEntity<?> cancelEvent(@PathVariable Long id, @AuthenticationPrincipal MyUserDetails myUserDetails) {
 
         Long userId = myUserDetails.getUser().getId();
@@ -39,7 +39,7 @@ public class EventController {
         return ResponseEntity.ok(new ApiUtils<>(true));
     }
 
-    @GetMapping("/myList")
+    @GetMapping("/user/event/myList")
     public ResponseEntity<?> myEventList(@AuthenticationPrincipal MyUserDetails myUserDetails) {
 
         Long userId = myUserDetails.getUser().getId();
@@ -49,7 +49,7 @@ public class EventController {
         return ResponseEntity.ok(new ApiUtils<>(listDTOS));
     }
 
-    @GetMapping("/list")
+    @GetMapping("/user/event/list")
     public ResponseEntity<?> eventList() {
 
         List<EventResponse.ListDTO> listDTOS = eventService.eventList();
