@@ -143,22 +143,22 @@
 	</tr>
   <tr>
 	    <td>연차/당직 신청</td>
-	    <td>/user/event/add</td>
+	    <td>/user/event</td>
       <td>POST</td>
 	</tr>
   <tr>
 	    <td>연차/당직 신청 취소</td>
-	    <td>/user/event/cancel/{id}</td>
-      <td>POST</td>
+	    <td>/user/event/{id}</td>
+      <td>DELETE</td>
 	</tr>
   <tr>
 	    <td>연차/당직 신청 현황</td>
-	    <td>/user/event/myList</td>
+	    <td>/user/event</td>
       <td>GET</td>
 	</tr>
   <tr>
 	    <td>모든 유저 연차/당직 리스트</td>
-	    <td>/user/event/list</td>
+	    <td>/user/events</td>
       <td>GET</td>
 	</tr>
   <tr>
