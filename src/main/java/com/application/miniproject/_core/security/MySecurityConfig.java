@@ -62,7 +62,7 @@ public class MySecurityConfig {
         });
 
         http.authorizeHttpRequests(auth ->
-                auth.antMatchers("/user/login", "/user/join", "/user/email", "/healthCheck").permitAll()
+                auth.antMatchers("/user/login", "/user/join", "/user/email", "/user/healthCheck").permitAll()
                         .antMatchers("/admin/**").hasRole("ADMIN")
                         .antMatchers("/**").authenticated());
 
