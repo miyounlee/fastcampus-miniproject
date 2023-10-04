@@ -2,13 +2,15 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.14'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id "com.microsoft.azure.azurewebapp" version '1.8.0'
+    id 'war'
 }
 
 group = 'com.application'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '11'
+    sourceCompatibility = '17'
 }
 
 configurations {
@@ -19,6 +21,19 @@ configurations {
 
 repositories {
     mavenCentral()
+}
+
+azurewebapp {
+    subscription = 'c311d8a3-3187-41e8-9b62-0e049f59a3b1'
+    resourceGroup = 'today-is-myturn_group'
+    appName = 'today-is-myturn'
+    pricingTier = 'B1' 
+    region = 'Korea Central' 
+    runtime {
+        os = 'Windows' 
+        webContainer = 'Tomcat 9.0'
+        javaVersion = 'Java 17'
+    }
 }
 
 dependencies {
@@ -58,4 +73,4 @@ tasks.named('test') {
 
 jar {
     enabled = false
-}
+} 
