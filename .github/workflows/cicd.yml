@@ -2,7 +2,7 @@ name: CI/CD # 1 깃허브 액션 이름 변경
 
 on:
   push:
-    branches: [ test/CICD ]
+    branches: [ refactor ]
 
 jobs:
   build:
