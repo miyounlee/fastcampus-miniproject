@@ -14,7 +14,6 @@
 
 <br>
 
-
 ## 서비스 소개
 ### 사용자 🙋
 - 메인캘린더 (모든 사원 혹은 개인 연차 & 당직 정보 조회)
@@ -29,6 +28,12 @@
 - 신청된 연차 & 당직 승인 및 반려 결정
 
 <br><br>
+
+## 프로젝트 기간
+```2023.07.24 ~ 2023.08.11```
+
+<br><br>
+
 ## 프로젝트에 사용한 기술 스택
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-squre&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-squre&logo=springsecurity&logoColor=white"> 
 <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=flat-squre&logo=spring&logoColor=white"> 
@@ -46,7 +51,7 @@
 <br><br>
 
 ## ERD
-<img width="452" alt="image" src="https://github.com/Fastcampus-Final-Team3/jober-backend/assets/43840220/f9be2bda-b438-4e80-af63-02861e7eacf5">
+<img width="600" alt="image" src="https://github.com/Fastcampus-Final-Team3/jober-backend/assets/43840220/f9be2bda-b438-4e80-af63-02861e7eacf5">
 
 <br><br>
 
@@ -123,7 +128,7 @@
 
 <br><br>
 
-## ▶️ 프로젝트 시현
+## 프로젝트 시현
 
 ### 로그인 페이지
 
