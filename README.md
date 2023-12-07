@@ -46,7 +46,7 @@
 
 
 ## 시스템 아키텍처 
-<img width="1198" alt="image" src="https://github.com/Fastcampus-Final-Team3/jober-backend/assets/43840220/57fd4c8d-f9a9-4a41-86ec-531ccf73c3ea">
+<img width="823" alt="image" src="https://github.com/Fastcampus-Final-Team3/jober-backend/assets/43840220/f8053e00-9971-4782-9c44-d1ae1dbf083f">
 
 <br><br>
 
