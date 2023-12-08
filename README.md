@@ -14,16 +14,17 @@
 ## 프로젝트 소개
 - 사유는 필요없다! 당당히 손들고 오늘은 내 차례라고 말할 수 있는 연차 & 당직 관리 서비스입니다. 
 - 본인의 연차와 당직을 신청 및 관리하고, 관리자가 이를 승인 및 반려가 가능합니다.
-- 기간 : ```2023.07.24 ~ 2023.08.11```
+- 기간 : ``2023.07.24 ~ 2023.08.11``
+- 개발인원 : BE 4명, FE 4명
+- [``🔗 배포 사이트로 이동``](https://my-turn.netlify.app)
 
 <br><br>
 
-## 프로젝트에 사용한 기술 스택
-<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-squre&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-squre&logo=springsecurity&logoColor=white"> 
+## 백엔드 기술 스택
+<img src="https://img.shields.io/badge/Java 11-437291?style=flat-squre&logo=openjdk&logoColor=white"> <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-squre&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-squre&logo=springsecurity&logoColor=white"> 
 <img src="https://img.shields.io/badge/Spring Data JPA-6DB33F?style=flat-squre&logo=spring&logoColor=white"> 
 
-<img src="https://img.shields.io/badge/Java 11-FF160B?style=flat-squre&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/Gradle-02303A?style=flat-squre&logo=gradle&logoColor=white"> 
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-squre&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/Gradle-02303A?style=flat-squre&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-squre&logo=mysql&logoColor=white">
 <img src="https://img.shields.io/badge/Amazon AWS-41454A?style=flat-squre&logo=amazonaws&logoColor=white">
 
 <br><br>
@@ -146,24 +147,24 @@
           <img src="https://avatars.githubusercontent.com/u/84082544?v=4" width="200px;" alt=""/><br /><sub><b>손영준</b></sub></a><br />
         </td>
         <td align="center"><a href="https://github.com/miyounlee">
-          <img src="https://avatars.githubusercontent.com/u/43840220?v=4" width="200px;" alt=""/><br /><sub><b>이미연</b></sub></a><br />
+          <img src="https://avatars.githubusercontent.com/u/43840220?v=4" width="200px;" alt=""/><br /><sub><b>이미연 (팀 리더)</b></sub></a><br />
         </td>
         <td align="center"><a href="https://github.com/MebukiYamashi">
-          <img src="https://avatars.githubusercontent.com/u/91310994?v=4" width="200px;" alt=""/><br /><sub><b>이성민</b></sub></a><br />
+          <img src="https://avatars.githubusercontent.com/u/91310994?v=4" width="200px;" alt=""/><br /><sub><b>이성민 (팀장)</b></sub></a><br />
         </td>
       </tr>
       <tr>
         <td>
-          회원정보 수정,<br />회원정보 조회,<br />프로젝트 초기세팅
+          API 및 DB 설계,<br />프로젝트 초기세팅,<br />회원정보 수정,<br />회원정보 조회
         </td>
         <td>
-          회원가입,<br />로그인,<br />JWT
+          API 및 DB 설계,<br />회원가입, 로그인, JWT
         </td>
         <td>
-          연차 / 당직 신청 및 취소,<br />연차 / 당직 조회,<br />서버 배포
+          API 및 DB 설계,<br />연차 / 당직 신청 및 취소,<br />연차 / 당직 조회,<br />서버 배포
         </td>
         <td>
-          관리자 연차 / 당직 승인,<br />관리자 연차 / 당직 조회
+          API 및 DB 설계,<br />관리자 연차 / 당직 승인,<br />관리자 연차 / 당직 조회
         </td>
       </tr>
     </tbody>
