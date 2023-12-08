@@ -4,7 +4,7 @@
 
 <img width="224" alt="오늘은 내차례" src="https://github.com/MINI-TEAM8-FC/BE_my_turn/assets/43840220/b1d3288f-b22c-4fc3-93a3-33744871fd95">
 
-# 오늘은 내 차례! (My Turn) [🔗](https://my-turn.netlify.app)
+# 오늘은 내 차례! (My Turn) [🔗](https://my-turn.netlify.app/login)
 
 
 </div>
@@ -16,7 +16,7 @@
 - 본인의 연차와 당직을 신청 및 관리하고, 관리자가 이를 승인 및 반려가 가능합니다.
 - 기간 : ``2023.07.24 ~ 2023.08.11``
 - 개발인원 : BE 4명, FE 4명
-- [``🔗 배포 사이트로 이동``](https://my-turn.netlify.app)
+- [``🔗 배포 사이트로 이동``](https://my-turn.netlify.app/login)
 
 <br><br>
 
